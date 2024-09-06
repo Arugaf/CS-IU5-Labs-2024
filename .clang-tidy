@@ -1,0 +1,6 @@
+---
+Checks:           'clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type,readability-braces-around-statements,readability-isolate-declaration
+'
+WarningsAsErrors: '*'
+FormatStyle:      'file'
+...
