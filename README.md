@@ -2,7 +2,7 @@
 
 > Репозиторий для выполнения лабораторных работ в рамках курса "Основы Программирования" кафедры ИУ5
 
-https://arugaf.github.io/CS-IU5-Labs-2024/labs/
+https://arugaf.github.io/CS-IU5-Labs-2024/
 
  - Лабораторные работы
 	 - [Лабораторная работа 0.1](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-00_1.html)
