@@ -9,3 +9,4 @@ https://arugaf.github.io/CS-IU5-Labs-2024/
 	 - [Лабораторная работа 0.2](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-00_2.html)
 	 - [Лабораторная работа 1](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-01.html)
  - [Style Guide](https://arugaf.github.io/CS-IU5-Labs-2024/cs-style-guide.html)
+ - [Правила сдачи лабораторных работ](https://arugaf.github.io/CS-IU5-Labs-2024/cs-rules.html)
