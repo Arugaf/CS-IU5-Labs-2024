@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Lab 0.3</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="дебаггер-и-отладка-приложения">0.3 - дебаггер и отладка приложения</h1>
+<blockquote>
+<p>Лабораторная работа 0.3 для студентов курса “Основы программирования” 1 курса кафедры ИУ5 МГТУ им Н.Э. Баумана.</p>
+</blockquote>
+<h2 id="содержание">Содержание</h2>
+<ol>
+<li><a href="#%D1%86%D0%B5%D0%BB%D1%8C-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B">Цель работы</a></li>
+<li><a href="#%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5">Введение</a></li>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%B4%D0%B5%D0%B1%D0%B0%D0%B3%D0%B3%D0%B5%D1%80%D0%B0">Установка дебаггера</a></li>
+<li><a href="#%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D0%B4%D0%B5%D0%B1%D0%B0%D0%B3%D0%B3%D0%B5%D1%80%D0%B0-%D0%BF%D0%BE%D0%B4-vs-code">Настройка дебаггера под VS Code</a></li>
+<li><a href="#%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%B4%D0%B5%D0%B1%D0%B0%D0%B3%D0%B3%D0%B5%D1%80%D0%BE%D0%BC">Работа с дебаггером</a></li>
+</ol>
+<h2 id="цель-работы">Цель работы</h2>
+<p>Научиться осуществлять отладку приложения с использованием дебаггера.</p>
+<h2 id="введение">Введение</h2>
+<p>В данной лабораторной работе будет рассказано как:</p>
+<ul>
+<li>Настроить запуск дебаггера (gdb или lldb) в VS Code;</li>
+<li>Скомпилировать программу так, чтобы ее можно было запустить под дебаггером;</li>
+<li>Управлять работой приложения под дебаггером.</li>
+</ul>
+<h2 id="установка-дебаггера">Установка дебаггера</h2>
+<p>Проверьте, что у вас установлен дебаггер <strong>GDB</strong> или <strong>LLDB</strong>. Для современных MacBook (с чипами M1 и новее) на текущий момент доступен только <strong>LLDB</strong>.</p>
+<pre><code>gdb --version
+</code></pre>
+<p><strong>или</strong></p>
+<pre><code>lldb --version
+</code></pre>
+<p>Прочитайте вывод в консоли. Если данная команда не найдена, то установите новейший доступный <strong>gdb</strong> или <strong>lldb</strong> через предпочитаемый пакетный менеджер (например, <strong>apt</strong> для <strong>Ubuntu</strong>, <strong>brew</strong> для <strong>MacOS</strong>).</p>
+<h2 id="настройка-дебаггера-под-vs-code">Настройка дебаггера под VS Code</h2>
+<p>Откройте нужный проект в VS Code. В корне проекта откройте директорию <strong>.vscode</strong> (создайте ее, если она отсутствует).</p>
+<p>Например, для проекта <em>Debugger-Example</em> в одноименной директории иерархия директорий будет выглядеть так:</p>
+<pre><code>Debugger-Example/
+└── .vscode
+</code></pre>
+<p>Где <em>Debugger-Example</em> - это корень проекта.</p>
+<p>В директории <strong>.vscode</strong> создайте файл <strong>launch.json</strong>.</p>
+<pre><code>Debugger-Example/
+└── .vscode
+    └── launch.json
+</code></pre>
+<p>Скопируйте в этот файл следующее содержимое. Это конфиг для запуска приложения под <strong>gdb</strong>. <strong>Внимательно прочитайте сам конфиг и описание к нему (ниже).</strong></p>
+<pre><code>{
+    "configurations": [
+        {
+            "name": "***",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "***",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
+
+</code></pre>
+<p>Соответствующий конфиг для <strong>lldb</strong>:</p>
+<pre><code>{
+    "configurations": [
+        {
+            "name": "***",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "***",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        }
+    ]
+}
+
+</code></pre>
+<ul>
+<li><em>name</em> - имя конфига: то, как оно будет отображаться в панели запуска. Можно поставить любым (надо заменить ***). Например, <strong>Debug app</strong>;</li>
+<li><em>type</em> - тип конфига;</li>
+<li><em>request</em> - указывает, нужно ли запустить процесс (launch) или присоединиться к нему (attach);</li>
+<li><em>program</em> - имя приложения, которое будет запускаться под дебаггером. Сюда нужно указать путь, по которому находится это приложение (вместо ***). Например, это может быть <strong>${workspaceFolder}/a.out</strong>, где <strong>${workspaceFolder}</strong> - это переменная, которая содержит путь к корню проекта;</li>
+<li><em>cwd</em> - текущая рабочая директория;</li>
+<li><em>MIMode</em> - указывает какой дебаггер будет использоваться (<strong>gdb</strong> или <strong>lldb</strong>).</li>
+</ul>
+<p>Сохраните конфиг. После этого во вкладке <strong>Run and Debug</strong> в списке конфигураций (сверху) появится новая конфигурация с тем именем, которое вы указали до этого.</p>
+<p><img src="https://sun9-38.userapi.com/impg/Mk57HwuJiDE53bkzrc0GysNpKGc9jXJQc3aXZQ/fQzsNMVD_m4.jpg?size=355x383&amp;quality=95&amp;sign=65610ddb3bbafcba27fea3858f927c69&amp;type=album" alt="enter image description here"></p>
+<h2 id="работа-с-дебаггером">Работа с дебаггером</h2>
+<p>Дебаггер позволяет осуществлять отладку приложения, используя следующие инструменты:</p>
+<ul>
+<li>Расстановка пользовательских <strong>точек останова</strong> (breakpoints) на конкретных строчках приложения. Приложение, запущенное под дебаггером, остановит свое исполнение, как только дойдет до такой точки (при этом до исполнения соответствующей строчки);</li>
+<li>Пошаговое (построчное) исполнение приложения;</li>
+<li>Просмотр текущего состояния приложения (значения переменных, стек вызова функций и т.п.).</li>
+</ul>
+<p>Чтобы дебаггер мог получить эту информацию из приложения, при компиляции следует подать флаг <strong>-g</strong>. Этот  флаг встроит нужную информацию (известную как “дебажные символы”) прямо в исполняемый файл.</p>
+<p>Например, следующая команда создаст исполняемый файл <em>app</em> с дебажными символами, используя <em>main.cpp</em> в качестве файла с кодом.</p>
+<pre><code>g++ -std=c++20 -g -Wall -Werror -Wextra -Wpedantic main.cpp -o app
+</code></pre>
+<p>Какие-то флаги можно опускать, если в них нет необходимости. В частности, не стоит постоянно компилировать приложение с флагом <strong>-g</strong>, т.к. это влияет на производительность самого приложения.</p>
+<h3 id="пример">Пример</h3>
+<p>В проекте, о котором говорилось выше, создадим файл <strong>main.cpp</strong> и вставим туда следующий код:</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">struct</span> S <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">*</span> b<span class="token punctuation">,</span> S<span class="token operator">&amp;</span> c<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> d <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token operator">*</span>b <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    c<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">;</span>
+    c<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">15.25</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">;</span>
+    S s<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> s<span class="token punctuation">.</span>a <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token operator">&lt;&lt;</span> s<span class="token punctuation">.</span>b <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>С помощью следующей команды скомпилируем исполняемый файл <em>a.out</em>, добавив туда дебажные символы:</p>
+<pre><code>g++ -g main.cpp
+</code></pre>
+<p>Добавим точки останова на 23 и 28 строках. Для этого надо кликнуть левее номера строчки, чтобы появилась красная точка:</p>
+<p><img src="https://sun9-70.userapi.com/impg/OnSlk_WKL94N6w2IDFZi24Or8AFi0K9wzxbx3A/bS-x0AX2nrY.jpg?size=524x663&amp;quality=95&amp;sign=d0eb752844fc2c2ab51f70e33a605339&amp;type=album" alt="enter image description here"></p>
+<p>Теперь запустим приложение под дебаггером. Для этого надо во вкладке <strong>Run and Debug</strong> выбрать нужную конфигурацию, которую создали ранее, и нажать на зеленую стрелочку. Или нажать на кнопку <strong>f5</strong> (по дефолту), если выбрана нужная конфигурация:</p>
+<p><img src="https://sun9-50.userapi.com/impg/w1ZPJrkQYizpCYDyKPPicXNYqJAGVwGVEgunqQ/eCCa_NW19A4.jpg?size=302x206&amp;quality=95&amp;sign=546926d9b8a5754a1af77ec3e5f810e0&amp;type=album" alt="enter image description here"></p>
+<p>Приложение должно остановить свое исполнение на строке 23. Выглядеть это должно примерно следующим образом:</p>
+<p><img src="https://sun9-57.userapi.com/impg/XGTQHEgrww_johSW-DGPEHi7nNxyk8vSwjlfCw/U6lNnDOPbeg.jpg?size=1250x1079&amp;quality=95&amp;sign=a080083dc2abf3edd378bd2a2289dc37&amp;type=album" alt="enter image description here"></p>
+<p>На скриншоте слева сверху в разделе <strong>Variables</strong> перечислены еще не созданные (но видимые дебаггеру, т.к. они находятся на стеке) локальные переменные. Слева снизу в разделе <strong>Call Stack</strong> находится стек вызовов, в котором содержится информация о том, какая функция сейчас исполняется и из каких функций был произведен вызов. Еще ниже находится список точек останова <strong>Breakpoints</strong>.</p>
+<p>Сверху над кодом находится панель управления, с помощью которой можно управлять потоком исполнения приложения (слева направо):</p>
+<ul>
+<li><em>Continue</em> (по умолчанию <strong>f5</strong>) - продолжить исполнение приложения до следующей точки останова (или до конца приложения, если точек больше нет);</li>
+<li><em>Step Over</em> (по умолчанию <strong>f10</strong>) - перейти на следующую строчку;</li>
+<li><em>Step Into</em> (по умолчанию <strong>f11</strong>) - войти в ту функцию/метод/оператор, которая будет вызвана на этой строчке. Если на одной строчке вызывается несколько функций, то войдет в ту, которая будет вызвана первой. Если вызова нет, то работает аналогично <em>Step Over</em>;</li>
+<li><em>Step Out</em> (по умолчанию <strong>Shift+f11</strong>) - выйти из функции, остановившись на строке, следующей за вызовом этой функции внутри вызывающей функции;</li>
+<li><em>Restart</em> (по умолчанию <strong>Ctrl+Shift+f5</strong>) - перезапустить приложение под дебаггером;</li>
+<li><em>Stop</em> (по умолчанию <strong>Shift+f5</strong>) - остановить приложение целиком.</li>
+</ul>
+<p>В данном случае остановка произошла на строке 23, причем перед ее исполнением. Нажав на кнопку <em>Step Over</em>, можно перейти к следующей строке. При этом можно увидеть, что переменная <strong>a</strong> внутри функции <strong>main</strong> инициализировалась соответствующим значением.</p>
+<p><img src="https://sun9-8.userapi.com/impg/6H0SAsyfcixgNkQrDBxDZx_2j1e9xhwbHzAizg/JOOpATMxjvE.jpg?size=268x175&amp;quality=95&amp;sign=6a7770a5911a966af19375e748e727f3&amp;type=album" alt="enter image description here"></p>
+<p>При нажатии на кнопку <em>Step Over</em> еще один раз произойдет переход на строку 26 (пустые строчки пропускаются автоматически).</p>
+<p>При нажатии на кнопку <em>Step Into</em> произойдет заход в функцию <strong>foo</strong>:</p>
+<p><img src="https://sun9-71.userapi.com/impg/QsXCuLrPbrc4ePdwiE2CvHEpU-deb6SUrXGmDQ/DVFmjYl0Mw0.jpg?size=814x779&amp;quality=95&amp;sign=979e615260a4db54598e376d4e1b09c3&amp;type=album" alt="enter image description here"></p>
+<p>Список переменных изменился. Теперь показываются локальные переменные для функции <strong>foo</strong>: параметры <strong>a</strong> (со значением 15), <strong>b</strong> (с адресом переменной <strong>a</strong> функции <strong>main</strong> и значением, которое лежит по этому адресу, равным 17), <strong>c</strong> (переданной по ссылке из функции <strong>main</strong>), а также локальная переменная <strong>d</strong>.</p>
+<p>Стек вызовов также теперь отображает вверху текущую функцию, в которой сейчас находится поток исполнения приложения, а ниже указана функция <strong>main</strong>, из которой был произведен вызов.</p>
+<p>Дальше можно продолжить пошаговое выполнение приложения через <em>Step Over</em>, либо нажать на <em>Step Out</em> или <em>Continue</em>. В данном конкретном случае оба этих варианта приведут к остановке на строчке 28 в функции <strong>main</strong>.</p>
+<p>В списке переменных можно увидеть как поменялись значения локальных переменных <strong>a</strong> и <strong>s</strong>, после того, как они были переданы в функцию <strong>foo</strong> по адресу и ссылке соответственно.</p>
+<p>Теперь можно либо позволить приложению продолжить исполнение, нажав на <em>Continue</em>, либо прервать его через <em>Stop</em>.</p>
+<p>Таким образом, с помощью дебаггера можно смотреть, как ведет себя приложение и отслеживать его состояние, используя пошаговое исполнение и точки останова.</p>
+<p>Более продвинутое использование дебаггера оставляется на самостоятельное изучение.</p>
+<p><strong>Важное примечание</strong>:</p>
+<blockquote>
+<p>При запуске приложения под дебаггером создается отдельный терминал, в который осуществляется ввод и вывод данных приложения. Найти его можно в списке терминалов в соответствующей вкладке. Дебажная консоль и терминал, к которому привязаны ввод/вывод приложения - это не одно и то же.</p>
+</blockquote>
+</div>
+</body>
+
+</html>
