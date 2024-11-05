@@ -13,5 +13,6 @@ https://arugaf.github.io/CS-IU5-Labs-2024/
 	 - [Лабораторная работа 2](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-02.html)
 	 - [Лабораторная работа 3](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-03.html)
 	 - [Лабораторная работа 4](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-04.html)
+	 - [Лабораторная работа 5](https://arugaf.github.io/CS-IU5-Labs-2024/labs/cs-lab-05.html)
  - [Style Guide](https://arugaf.github.io/CS-IU5-Labs-2024/cs-style-guide.html)
  - [Правила сдачи лабораторных работ](https://arugaf.github.io/CS-IU5-Labs-2024/cs-rules.html)
